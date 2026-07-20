@@ -21,6 +21,13 @@ export const register = async (req: AuthRequest, res: Response): Promise<void> =
       return;
     }
 
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      res.status(400).json({ error: 'Please provide a valid email address' });
+      return;
+    }
+
     if (password.length < 6) {
       res.status(400).json({ error: 'Password must be at least 6 characters long' });
       return;
