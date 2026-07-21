@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import authRoutes from './routes/auth';
 import applicationRoutes from './routes/application';
 import dashboardRoutes from './routes/dashboard';
+import aiRoutes from './routes/ai';
 
 dotenv.config();
 
@@ -39,6 +40,7 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/applications', applicationRoutes);
 app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/ai', aiRoutes);
 
 // Health Check Endpoint
 app.get('/api/health', (req, res) => {
