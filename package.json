@@ -12,6 +12,7 @@
     "prisma:migrate": "prisma migrate dev"
   },
   "dependencies": {
+    "@google/genai": "^2.13.0",
     "@google/generative-ai": "^0.24.1",
     "@prisma/client": "^5.17.0",
     "bcrypt": "^5.1.1",

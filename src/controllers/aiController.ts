@@ -1,5 +1,5 @@
 import { Response } from 'express';
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { GoogleGenAI } from '@google/genai';
 import { AuthRequest } from '../middlewares/authMiddleware';
 
 // POST /api/ai/analyze
@@ -19,8 +19,7 @@ export const analyzeJobDescription = async (req: AuthRequest, res: Response): Pr
       return;
     }
 
-    const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    const ai = new GoogleGenAI({ apiKey });
 
     const prompt = `
 You are a career advisor. Analyze the following job description and return a JSON response with exactly this structure:
@@ -39,11 +38,19 @@ ${jobDescription.trim()}
 Return ONLY valid JSON. No markdown, no explanation.
 `;
 
-    const result = await model.generateContent(prompt);
-    const text = result.response.text().trim();
+    const response = await ai.models.generateContent({
+      model: 'gemini-2.0-flash',
+      contents: prompt,
+    });
+
+    const text = response.text?.trim() ?? '';
 
     // Strip markdown code blocks if present
-    const clean = text.replace(/^```json\s*/i, '').replace(/^```\s*/i, '').replace(/```\s*$/i, '').trim();
+    const clean = text
+      .replace(/^```json\s*/i, '')
+      .replace(/^```\s*/i, '')
+      .replace(/```\s*$/i, '')
+      .trim();
 
     let parsed;
     try {
