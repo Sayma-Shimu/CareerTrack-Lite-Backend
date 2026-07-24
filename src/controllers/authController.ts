@@ -4,7 +4,8 @@ import jwt from 'jsonwebtoken';
 import prisma from '../lib/prisma';
 import { AuthRequest } from '../middlewares/authMiddleware';
 
-const jwtSecret = process.env.JWT_SECRET || 'super-secret-careertrack-jwt-token-key-2026';
+const jwtSecret = process.env.JWT_SECRET;
+if (!jwtSecret) throw new Error('JWT_SECRET environment variable is not set');
 
 // Helper to generate JWT token
 const generateToken = (userId: string, email: string) => {

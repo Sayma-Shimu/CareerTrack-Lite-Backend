@@ -21,7 +21,11 @@ export const authenticateToken = (
     return;
   }
 
-  const jwtSecret = process.env.JWT_SECRET || 'super-secret-careertrack-jwt-token-key-2026';
+  const jwtSecret = process.env.JWT_SECRET;
+  if (!jwtSecret) {
+    res.status(500).json({ error: 'Server configuration error' });
+    return;
+  }
 
   jwt.verify(token, jwtSecret, (err, decoded) => {
     if (err) {
